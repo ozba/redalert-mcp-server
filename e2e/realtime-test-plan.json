@@ -1,0 +1,450 @@
+{
+  "name": "RedAlert MCP Server - Real-time Alert Tools E2E Test Plan",
+  "description": "End-to-end test sequences for Socket.IO real-time alert subscription tools. All tests use testMode: true to avoid depending on real alerts.",
+  "tools": [
+    "subscribe_alerts",
+    "poll_alerts",
+    "unsubscribe_alerts",
+    "get_alert_subscription_status"
+  ],
+  "sequences": [
+    {
+      "id": "seq-1",
+      "name": "Full lifecycle",
+      "description": "Subscribe -> status check -> poll -> unsubscribe -> status check"
+    },
+    {
+      "id": "seq-2",
+      "name": "Poll before subscribe",
+      "description": "Poll without subscribing first - should return error"
+    },
+    {
+      "id": "seq-3",
+      "name": "Subscribe with alert type filter",
+      "description": "Subscribe to specific alert types only"
+    },
+    {
+      "id": "seq-4",
+      "name": "Subscribe with timing and multi-poll",
+      "description": "Subscribe with fast timing, poll multiple times to see alerts accumulate"
+    },
+    {
+      "id": "seq-5",
+      "name": "Unsubscribe when not subscribed",
+      "description": "Unsubscribe without an active subscription"
+    },
+    {
+      "id": "seq-6",
+      "name": "Double subscribe",
+      "description": "Subscribe twice - second should reset connection cleanly"
+    },
+    {
+      "id": "seq-7",
+      "name": "Status check when not subscribed",
+      "description": "Check status with no active subscription"
+    }
+  ],
+  "tests": [
+    {
+      "id": "rt-001",
+      "sequence": 1,
+      "step": 1,
+      "tool": "subscribe_alerts",
+      "description": "Subscribe to all alerts in test mode",
+      "arguments": {
+        "testMode": true,
+        "timing": "2s"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["status", "subscribedTypes", "testMode", "message"],
+        "fieldChecks": {
+          "status": "connected",
+          "testMode": true
+        },
+        "description": "Should return connected status with testMode true and list of subscribed types"
+      }
+    },
+    {
+      "id": "rt-002",
+      "sequence": 1,
+      "step": 2,
+      "tool": "get_alert_subscription_status",
+      "description": "Check subscription status after subscribing",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "subscribedTypes", "testMode", "bufferedAlerts", "connectedSince", "totalAlertsReceived"],
+        "fieldChecks": {
+          "connected": true,
+          "testMode": true
+        },
+        "description": "Should show connected=true, testMode=true, and connectedSince as non-null ISO timestamp"
+      }
+    },
+    {
+      "id": "rt-003",
+      "sequence": 1,
+      "step": 3,
+      "delayBeforeMs": 4000,
+      "tool": "poll_alerts",
+      "description": "Poll for alerts after waiting for test server to send some",
+      "arguments": {
+        "limit": 10,
+        "acknowledge": true
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "alertCount", "bufferSize", "alerts"],
+        "fieldChecks": {
+          "connected": true
+        },
+        "description": "Should return alerts array (may have 0+ alerts depending on test server timing). alertCount should be a number >= 0."
+      }
+    },
+    {
+      "id": "rt-004",
+      "sequence": 1,
+      "step": 4,
+      "tool": "unsubscribe_alerts",
+      "description": "Unsubscribe from alerts",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["status", "message"],
+        "fieldChecks": {
+          "status": "disconnected"
+        },
+        "description": "Should return disconnected status with confirmation message"
+      }
+    },
+    {
+      "id": "rt-005",
+      "sequence": 1,
+      "step": 5,
+      "tool": "get_alert_subscription_status",
+      "description": "Check status after unsubscribing",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "subscribedTypes", "testMode", "bufferedAlerts"],
+        "fieldChecks": {
+          "connected": false,
+          "testMode": false,
+          "bufferedAlerts": 0
+        },
+        "description": "Should show connected=false, empty subscribedTypes, testMode=false, bufferedAlerts=0"
+      }
+    },
+    {
+      "id": "rt-006",
+      "sequence": 2,
+      "step": 1,
+      "tool": "poll_alerts",
+      "description": "Poll alerts without subscribing first - should error",
+      "arguments": {
+        "limit": 10
+      },
+      "validate": {
+        "isError": true,
+        "responseIsJSON": false,
+        "description": "Should return an error indicating subscription is required before polling"
+      }
+    },
+    {
+      "id": "rt-007",
+      "sequence": 3,
+      "step": 1,
+      "tool": "subscribe_alerts",
+      "description": "Subscribe to only missiles and earthQuake alert types in test mode",
+      "arguments": {
+        "alertTypes": ["missiles", "earthQuake"],
+        "testMode": true,
+        "timing": "2s"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["status", "subscribedTypes", "testMode"],
+        "fieldChecks": {
+          "status": "connected",
+          "testMode": true
+        },
+        "arrayChecks": {
+          "subscribedTypes": {
+            "exactMatch": ["missiles", "earthQuake"]
+          }
+        },
+        "description": "Should connect and subscribe only to missiles and earthQuake types"
+      }
+    },
+    {
+      "id": "rt-008",
+      "sequence": 3,
+      "step": 2,
+      "tool": "get_alert_subscription_status",
+      "description": "Verify filtered subscription status shows only selected types",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "subscribedTypes"],
+        "fieldChecks": {
+          "connected": true
+        },
+        "arrayChecks": {
+          "subscribedTypes": {
+            "exactMatch": ["missiles", "earthQuake"]
+          }
+        },
+        "description": "subscribedTypes should contain exactly missiles and earthQuake"
+      }
+    },
+    {
+      "id": "rt-009",
+      "sequence": 3,
+      "step": 3,
+      "tool": "unsubscribe_alerts",
+      "description": "Clean up - unsubscribe from filtered subscription",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "status": "disconnected"
+        },
+        "description": "Should disconnect cleanly"
+      }
+    },
+    {
+      "id": "rt-010",
+      "sequence": 4,
+      "step": 1,
+      "tool": "subscribe_alerts",
+      "description": "Subscribe with fast timing for multi-poll test",
+      "arguments": {
+        "testMode": true,
+        "timing": "1s"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "status": "connected",
+          "testMode": true
+        },
+        "description": "Should connect with 1s timing interval"
+      }
+    },
+    {
+      "id": "rt-011",
+      "sequence": 4,
+      "step": 2,
+      "delayBeforeMs": 3000,
+      "tool": "poll_alerts",
+      "description": "First poll - peek without acknowledging",
+      "arguments": {
+        "limit": 50,
+        "acknowledge": false
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "alertCount", "bufferSize", "alerts"],
+        "fieldChecks": {
+          "connected": true
+        },
+        "description": "Should return alerts without clearing the buffer (peek mode). alertCount and bufferSize should be equal since nothing was acknowledged."
+      }
+    },
+    {
+      "id": "rt-012",
+      "sequence": 4,
+      "step": 3,
+      "tool": "poll_alerts",
+      "description": "Second poll - acknowledge alerts this time",
+      "arguments": {
+        "limit": 50,
+        "acknowledge": true
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "alertCount", "bufferSize", "alerts"],
+        "fieldChecks": {
+          "connected": true
+        },
+        "description": "Should return and clear buffered alerts. bufferSize should be 0 after acknowledge."
+      }
+    },
+    {
+      "id": "rt-013",
+      "sequence": 4,
+      "step": 4,
+      "delayBeforeMs": 3000,
+      "tool": "poll_alerts",
+      "description": "Third poll - should have new alerts after waiting",
+      "arguments": {
+        "limit": 5,
+        "acknowledge": true
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "alertCount", "alerts"],
+        "fieldChecks": {
+          "connected": true
+        },
+        "description": "Should have accumulated new alerts during the delay period"
+      }
+    },
+    {
+      "id": "rt-014",
+      "sequence": 4,
+      "step": 5,
+      "tool": "unsubscribe_alerts",
+      "description": "Clean up - unsubscribe after multi-poll test",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "status": "disconnected"
+        },
+        "description": "Should disconnect cleanly"
+      }
+    },
+    {
+      "id": "rt-015",
+      "sequence": 5,
+      "step": 1,
+      "tool": "unsubscribe_alerts",
+      "description": "Unsubscribe when not subscribed - should succeed gracefully",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["status", "message"],
+        "fieldChecks": {
+          "status": "disconnected"
+        },
+        "description": "Should return disconnected status without error even when not subscribed"
+      }
+    },
+    {
+      "id": "rt-016",
+      "sequence": 6,
+      "step": 1,
+      "tool": "subscribe_alerts",
+      "description": "First subscription for double-subscribe test",
+      "arguments": {
+        "testMode": true,
+        "timing": "2s"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "status": "connected",
+          "testMode": true
+        },
+        "description": "First subscription should connect successfully"
+      }
+    },
+    {
+      "id": "rt-017",
+      "sequence": 6,
+      "step": 2,
+      "tool": "subscribe_alerts",
+      "description": "Second subscription - should reset and reconnect",
+      "arguments": {
+        "alertTypes": ["missiles"],
+        "testMode": true,
+        "timing": "3s"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "status": "connected",
+          "testMode": true
+        },
+        "arrayChecks": {
+          "subscribedTypes": {
+            "exactMatch": ["missiles"]
+          }
+        },
+        "description": "Second subscribe should disconnect old connection and establish new one with updated filters"
+      }
+    },
+    {
+      "id": "rt-018",
+      "sequence": 6,
+      "step": 3,
+      "tool": "get_alert_subscription_status",
+      "description": "Verify status reflects second subscription, not first",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "connected": true,
+          "testMode": true
+        },
+        "arrayChecks": {
+          "subscribedTypes": {
+            "exactMatch": ["missiles"]
+          }
+        },
+        "description": "Status should show the second subscription's config (missiles only)"
+      }
+    },
+    {
+      "id": "rt-019",
+      "sequence": 6,
+      "step": 4,
+      "tool": "unsubscribe_alerts",
+      "description": "Clean up double-subscribe test",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "fieldChecks": {
+          "status": "disconnected"
+        },
+        "description": "Should disconnect cleanly"
+      }
+    },
+    {
+      "id": "rt-020",
+      "sequence": 7,
+      "step": 1,
+      "tool": "get_alert_subscription_status",
+      "description": "Check status when not subscribed at all",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "requiredFields": ["connected", "subscribedTypes", "testMode", "bufferedAlerts", "connectedSince", "totalAlertsReceived"],
+        "fieldChecks": {
+          "connected": false,
+          "testMode": false,
+          "bufferedAlerts": 0,
+          "connectedSince": null,
+          "totalAlertsReceived": 0
+        },
+        "arrayChecks": {
+          "subscribedTypes": {
+            "exactMatch": []
+          }
+        },
+        "description": "Should return default disconnected state with all fields at their zero/null values"
+      }
+    }
+  ]
+}

@@ -1,0 +1,460 @@
+{
+  "timestamp": "2026-03-14T13:16:55.881Z",
+  "total": 56,
+  "passed": 56,
+  "failed": 0,
+  "passRate": "100.0%",
+  "restResults": [
+    {
+      "testId": "rest-001",
+      "tool": "get_active_alerts",
+      "description": "Get current active alerts with no params",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"newsFlash\": [\n    \"אליפז ומכרות תמנע\",\n    \"גרופית\",\n    \"יהל\",\n    \"יטבתה\",\n    \"לוטן\",\n    \"נאות סמדר\",\n    \"נווה חריף\",\n    \"סמר\",\n    \"ספיר\",\n    \"עין יהב\",\n    \"פארן\",\n    \"צופר\",\n    \"צוקים\",\n    \"קטורה\",\n    \"שחרות\",\n    \"שיטים\"\n  ],\n  \"missiles\": [\n    \"אזור תעשייה שחורת\",\n    \"אילות\",\n    \"אילת\",\n    \"באר אורה\"\n  ]\n}"
+    },
+    {
+      "testId": "rest-002",
+      "tool": "get_active_alerts",
+      "description": "Verify response structure has valid alert type keys",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"newsFlash\": [\n    \"אליפז ומכרות תמנע\",\n    \"גרופית\",\n    \"יהל\",\n    \"יטבתה\",\n    \"לוטן\",\n    \"נאות סמדר\",\n    \"נווה חריף\",\n    \"סמר\",\n    \"ספיר\",\n    \"עין יהב\",\n    \"פארן\",\n    \"צופר\",\n    \"צוקים\",\n    \"קטורה\",\n    \"שחרות\",\n    \"שיטים\"\n  ],\n  \"missiles\": [\n    \"אזור תעשייה שחורת\",\n    \"אילות\",\n    \"אילת\",\n    \"באר אורה\"\n  ]\n}"
+    },
+    {
+      "testId": "rest-003",
+      "tool": "get_active_alerts",
+      "description": "Verify active alerts returns consistent results on repeated calls",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"newsFlash\": [\n    \"אליפז ומכרות תמנע\",\n    \"גרופית\",\n    \"יהל\",\n    \"יטבתה\",\n    \"לוטן\",\n    \"נאות סמדר\",\n    \"נווה חריף\",\n    \"סמר\",\n    \"ספיר\",\n    \"עין יהב\",\n    \"פארן\",\n    \"צופר\",\n    \"צוקים\",\n    \"קטורה\",\n    \"שחרות\",\n    \"שיטים\"\n  ],\n  \"missiles\": [\n    \"אזור תעשייה שחורת\",\n    \"אילות\",\n    \"אילת\",\n    \"באר אורה\"\n  ]\n}"
+    },
+    {
+      "testId": "rest-010",
+      "tool": "get_stats_summary",
+      "description": "Basic summary with no params",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"totals\": {\n    \"range\": 10890,\n    \"last24h\": 131,\n    \"last7d\": 993,\n    \"last30d\": 2052\n  },\n  \"uniqueCities\": 1650,\n  \"uniqueZones\": 33,\n  \"uniqueOrigins\": 8\n}"
+    },
+    {
+      "testId": "rest-011",
+      "tool": "get_stats_summary",
+      "description": "Summary with include=topCities,topZones,topOrigins,peak",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"totals\": {\n    \"range\": 10890,\n    \"last24h\": 131,\n    \"last7d\": 993,\n    \"last30d\": 2052\n  },\n  \"uniqueCities\": 1650,\n  \"uniqueZones\": 33,\n  \"uniqueOrigins\": 8,\n  \"topCities\": [\n    {\n      \"city\": \"קריית שמונה\",\n      \"zone\": \"קו העימות\",\n      \"count\": 717\n    },\n    {\n      \"city\": \"אזור תעשייה הדרומי אשקלון\",\n      \"zone\": \"מערב לכיש\",\n      \"count\": 666\n    },\n    {\n      \"city\": \"נתיב העשרה\",\n      \"zone\": \"עוטף עזה\",\n      \"count\": 590\n    },\n    {\n      \"city\": \"מרגליות\",\n      \"zo"
+    },
+    {
+      "testId": "rest-012",
+      "tool": "get_stats_summary",
+      "description": "Summary with date range filter",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"totals\": {\n    \"range\": 713,\n    \"last24h\": 131,\n    \"last7d\": 993,\n    \"last30d\": 2052\n  },\n  \"uniqueCities\": 732,\n  \"uniqueZones\": 28,\n  \"uniqueOrigins\": 3\n}"
+    },
+    {
+      "testId": "rest-013",
+      "tool": "get_stats_summary",
+      "description": "Summary with origin filter",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"totals\": {\n    \"range\": 21389\n  },\n  \"uniqueCities\": 500,\n  \"uniqueZones\": 18,\n  \"topCities\": [\n    {\n      \"city\": \"אזור תעשייה הדרומי אשקלון\",\n      \"zone\": \"מערב לכיש\",\n      \"count\": 507\n    },\n    {\n      \"city\": \"נתיב העשרה\",\n      \"zone\": \"עוטף עזה\",\n      \"count\": 506\n    },\n    {\n      \"city\": \"איבים\",\n      \"zone\": null,\n      \"count\": 482\n    }\n  ]\n}"
+    },
+    {
+      "testId": "rest-014",
+      "tool": "get_stats_summary",
+      "description": "Summary with timeline grouped by day",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"totals\": {\n    \"range\": 489,\n    \"last24h\": 131,\n    \"last7d\": 993,\n    \"last30d\": 2052\n  },\n  \"uniqueCities\": 488,\n  \"uniqueZones\": 19,\n  \"uniqueOrigins\": 2,\n  \"timeline\": [\n    {\n      \"period\": \"2023-10-07\",\n      \"count\": 366\n    },\n    {\n      \"period\": \"2023-10-08\",\n      \"count\": 58\n    },\n    {\n      \"period\": \"2023-10-09\",\n      \"count\": 65\n    }\n  ]\n}"
+    },
+    {
+      "testId": "rest-020",
+      "tool": "get_stats_cities",
+      "description": "Basic city stats with defaults",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"city\": \"קריית שמונה\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 717\n    },\n    {\n      \"city\": \"אזור תעשייה הדרומי אשקלון\",\n      \"cityZone\": \"מערב לכיש\",\n      \"count\": 666\n    },\n    {\n      \"city\": \"נתיב העשרה\",\n      \"cityZone\": \"עוטף עזה\",\n      \"count\": 590\n    },\n    {\n      \"city\": \"מרגליות\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 584\n    },\n    {\n      \"city\": \"מטולה\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 565\n    },\n    {\n      \"city\": \"משג"
+    },
+    {
+      "testId": "rest-021",
+      "tool": "get_stats_cities",
+      "description": "City stats with search filter",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"city\": \"תל אביב - דרום העיר ויפו\",\n      \"cityZone\": \"דן\",\n      \"count\": 414\n    },\n    {\n      \"city\": \"תל אביב - מזרח\",\n      \"cityZone\": \"דן\",\n      \"count\": 409\n    },\n    {\n      \"city\": \"תל אביב - מרכז העיר\",\n      \"cityZone\": \"דן\",\n      \"count\": 403\n    },\n    {\n      \"city\": \"תל אביב - עבר הירקון\",\n      \"cityZone\": \"דן\",\n      \"count\": 395\n    }\n  ],\n  \"pagination\": {\n    \"total\": 4,\n    \"limit\": 10,\n    \"offset\": 0,\n    \"hasMore\": false\n  }\n}"
+    },
+    {
+      "testId": "rest-022",
+      "tool": "get_stats_cities",
+      "description": "City stats with pagination",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"city\": \"קריית שמונה\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 717\n    },\n    {\n      \"city\": \"אזור תעשייה הדרומי אשקלון\",\n      \"cityZone\": \"מערב לכיש\",\n      \"count\": 666\n    },\n    {\n      \"city\": \"נתיב העשרה\",\n      \"cityZone\": \"עוטף עזה\",\n      \"count\": 590\n    }\n  ],\n  \"pagination\": {\n    \"total\": 1650,\n    \"limit\": 3,\n    \"offset\": 0,\n    \"hasMore\": true\n  }\n}"
+    },
+    {
+      "testId": "rest-023",
+      "tool": "get_stats_cities",
+      "description": "City stats with include=translations,coords",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"city\": \"קריית שמונה\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 717,\n      \"translations\": {\n        \"name\": {\n          \"en\": \"Kiryat Shmona\",\n          \"ru\": \"Кирьят Шмона\",\n          \"ar\": \"كريات شمونه\"\n        },\n        \"zone\": {\n          \"en\": \"Confrontation Line\",\n          \"ru\": \"Кав Ха-Имут\",\n          \"ar\": \"خط المواجهة\"\n        }\n      },\n      \"lat\": 33.20934,\n      \"lng\": 35.57251\n    },\n    {\n      \"city\": \"אזור תעשייה הדרומי אשקלון\",\n      \"cityZone"
+    },
+    {
+      "testId": "rest-024",
+      "tool": "get_stats_cities",
+      "description": "City stats with origin filter and date range",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"city\": \"קריית שמונה\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 37\n    },\n    {\n      \"city\": \"מרגליות\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 35\n    },\n    {\n      \"city\": \"שלומי\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 28\n    },\n    {\n      \"city\": \"תל חי\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 23\n    },\n    {\n      \"city\": \"בצת\",\n      \"cityZone\": \"קו העימות\",\n      \"count\": 23\n    }\n  ],\n  \"pagination\": {\n    \"total\": 138,\n    \"limit\": 5,"
+    },
+    {
+      "testId": "rest-030",
+      "tool": "get_stats_history",
+      "description": "Basic history with defaults",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": \"019cec7b-ca65-718b-82cf-a89385532eb9\",\n      \"timestamp\": \"2026-03-14T13:14:21.660Z\",\n      \"type\": \"endAlert\",\n      \"origin\": null,\n      \"cities\": [\n        {\n          \"id\": 216,\n          \"name\": \"שומריה\",\n          \"zone\": \"מרכז הנגב\"\n        },\n        {\n          \"id\": 229,\n          \"name\": \"עתניאל\",\n          \"zone\": \"יהודה\"\n        },\n        {\n          \"id\": 242,\n          \"name\": \"נטע\",\n          \"zone\": \"יהודה\"\n        },\n        {\n          \"id\": "
+    },
+    {
+      "testId": "rest-031",
+      "tool": "get_stats_history",
+      "description": "History with search (city partial match)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": \"019cec7b-ca65-718b-82cf-a89385532eb9\",\n      \"timestamp\": \"2026-03-14T13:14:21.660Z\",\n      \"type\": \"endAlert\",\n      \"origin\": null,\n      \"cities\": []\n    },\n    {\n      \"id\": \"019cec71-d09e-7215-ace3-f757e33e9a4f\",\n      \"timestamp\": \"2026-03-14T13:03:22.000Z\",\n      \"type\": \"missiles\",\n      \"origin\": null,\n      \"cities\": []\n    },\n    {\n      \"id\": \"019cec6e-043b-7bc7-9955-f6576c589290\",\n      \"timestamp\": \"2026-03-14T12:59:18.966Z\",\n      \"type\": \"newsFlas"
+    },
+    {
+      "testId": "rest-032",
+      "tool": "get_stats_history",
+      "description": "History filtered by category",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": \"019cec7a-b11f-700d-ade9-bf41e5cc6b84\",\n      \"timestamp\": \"2026-03-14T13:13:09.656Z\",\n      \"type\": \"missiles\",\n      \"origin\": null,\n      \"cities\": [\n        {\n          \"id\": 4,\n          \"name\": \"אילת\",\n          \"zone\": \"אילת\"\n        },\n        {\n          \"id\": 9,\n          \"name\": \"אילות\",\n          \"zone\": \"אילת\"\n        },\n        {\n          \"id\": 10,\n          \"name\": \"אזור תעשייה שחורת\",\n          \"zone\": \"אילת\"\n        },\n        {\n          \"id\": 1"
+    },
+    {
+      "testId": "rest-033",
+      "tool": "get_stats_history",
+      "description": "History with date range and sorting",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": \"019cda45-e38e-7cda-b663-ae611e07d728\",\n      \"timestamp\": \"2023-10-07T03:29:00.000Z\",\n      \"type\": \"missiles\",\n      \"origin\": \"gaza\",\n      \"cities\": [\n        {\n          \"id\": 222,\n          \"name\": \"תקומה\",\n          \"zone\": \"עוטף עזה\"\n        },\n        {\n          \"id\": 234,\n          \"name\": \"נחל עוז\",\n          \"zone\": \"עוטף עזה\"\n        },\n        {\n          \"id\": 239,\n          \"name\": \"כפר עזה\",\n          \"zone\": \"עוטף עזה\"\n        },\n        {\n     "
+    },
+    {
+      "testId": "rest-034",
+      "tool": "get_stats_history",
+      "description": "History with cityName exact match and include translations",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": \"019cda45-e71d-7f7b-ad2c-08b5f46187cb\",\n      \"timestamp\": \"2026-03-08T15:52:14.000Z\",\n      \"type\": \"newsFlash\",\n      \"origin\": \"\",\n      \"cities\": [\n        {\n          \"id\": 2456,\n          \"name\": \"שדרות\",\n          \"zone\": null,\n          \"translations\": null\n        }\n      ]\n    },\n    {\n      \"id\": \"019cda45-e71d-7c9c-b9e1-974fab6e00a1\",\n      \"timestamp\": \"2026-03-08T15:28:08.000Z\",\n      \"type\": \"newsFlash\",\n      \"origin\": \"\",\n      \"cities\": [\n       "
+    },
+    {
+      "testId": "rest-035",
+      "tool": "get_stats_history",
+      "description": "History with include=coords,polygons",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": \"019cec7b-ca65-718b-82cf-a89385532eb9\",\n      \"timestamp\": \"2026-03-14T13:14:21.660Z\",\n      \"type\": \"endAlert\",\n      \"origin\": null,\n      \"cities\": [\n        {\n          \"id\": 216,\n          \"name\": \"שומריה\",\n          \"zone\": \"מרכז הנגב\",\n          \"lat\": 31.43132,\n          \"lng\": 34.88348,\n          \"polygon\": [\n            [\n              31.4355,\n              34.8806\n            ],\n            [\n              31.4362,\n              34.8812\n            ],\n"
+    },
+    {
+      "testId": "rest-040",
+      "tool": "get_stats_distribution",
+      "description": "Basic distribution with defaults (groupBy category)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"label\": \"missiles\",\n      \"count\": 7885\n    },\n    {\n      \"label\": \"hostileAircraftIntrusion\",\n      \"count\": 1984\n    },\n    {\n      \"label\": \"newsFlash\",\n      \"count\": 720\n    },\n    {\n      \"label\": \"endAlert\",\n      \"count\": 212\n    },\n    {\n      \"label\": \"terroristInfiltration\",\n      \"count\": 81\n    },\n    {\n      \"label\": \"earthQuakeDrill\",\n      \"count\": 3\n    },\n    {\n      \"label\": \"general\",\n      \"count\": 2\n    },\n    {\n      \"label\": \"missilesDrill\",\n  "
+    },
+    {
+      "testId": "rest-041",
+      "tool": "get_stats_distribution",
+      "description": "Distribution grouped by origin",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"label\": \"lebanon\",\n      \"count\": 4183\n    },\n    {\n      \"label\": \"gaza\",\n      \"count\": 3690\n    },\n    {\n      \"label\": \"\",\n      \"count\": 848\n    },\n    {\n      \"label\": null,\n      \"count\": 767\n    },\n    {\n      \"label\": \"iran\",\n      \"count\": 675\n    },\n    {\n      \"label\": \"fa\",\n      \"count\": 486\n    },\n    {\n      \"label\": \"yemen\",\n      \"count\": 167\n    },\n    {\n      \"label\": \"iraq\",\n      \"count\": 44\n    },\n    {\n      \"label\": \"syria\",\n      \"count\": 26\n "
+    },
+    {
+      "testId": "rest-042",
+      "tool": "get_stats_distribution",
+      "description": "Distribution grouped by category with date range",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"label\": \"missiles\",\n      \"count\": 1825\n    },\n    {\n      \"label\": \"hostileAircraftIntrusion\",\n      \"count\": 80\n    },\n    {\n      \"label\": \"terroristInfiltration\",\n      \"count\": 20\n    },\n    {\n      \"label\": \"general\",\n      \"count\": 1\n    }\n  ],\n  \"totalAlerts\": 1926,\n  \"pagination\": {\n    \"total\": 4,\n    \"limit\": 50,\n    \"offset\": 0,\n    \"hasMore\": false\n  }\n}"
+    },
+    {
+      "testId": "rest-043",
+      "tool": "get_stats_distribution",
+      "description": "Distribution with origin filter and sorting",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"label\": \"missiles\",\n      \"count\": 3666\n    },\n    {\n      \"label\": \"hostileAircraftIntrusion\",\n      \"count\": 23\n    },\n    {\n      \"label\": \"general\",\n      \"count\": 1\n    }\n  ],\n  \"totalAlerts\": 3690,\n  \"pagination\": {\n    \"total\": 3,\n    \"limit\": 5,\n    \"offset\": 0,\n    \"hasMore\": false\n  }\n}"
+    },
+    {
+      "testId": "rest-044",
+      "tool": "get_stats_distribution",
+      "description": "Distribution with ascending alphabetical sort",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"label\": \"earthQuake\",\n      \"count\": 1\n    },\n    {\n      \"label\": \"earthQuakeDrill\",\n      \"count\": 3\n    },\n    {\n      \"label\": \"endAlert\",\n      \"count\": 212\n    },\n    {\n      \"label\": \"general\",\n      \"count\": 2\n    },\n    {\n      \"label\": \"hazardousMaterialsDrill\",\n      \"count\": 1\n    },\n    {\n      \"label\": \"hostileAircraftIntrusion\",\n      \"count\": 1984\n    },\n    {\n      \"label\": \"missiles\",\n      \"count\": 7885\n    },\n    {\n      \"label\": \"missilesDrill\",\n  "
+    },
+    {
+      "testId": "rest-050",
+      "tool": "search_shelters",
+      "description": "Search shelters with lat/lon (Tel Aviv center)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "[\n  {\n    \"id\": \"e5e42b31-3097-488d-8ab5-46d9be655687\",\n    \"address\": \"שטרוק 16\",\n    \"city\": \"Tel Aviv\",\n    \"building_name\": null,\n    \"lat\": 32.0840861,\n    \"lon\": 34.7828561,\n    \"distance_meters\": 168,\n    \"distance_km\": 0.17,\n    \"capacity\": null,\n    \"wheelchair_accessible\": false,\n    \"has_stairs\": false,\n    \"shelter_type\": \"public_shelter\",\n    \"shelter_type_he\": \"מקלט ציבורי\",\n    \"area_sqm\": 100,\n    \"is_official\": true,\n    \"notes\": \"המקלט נמצא במתחם אגף מערכות מידע ומחשוב של עיריי"
+    },
+    {
+      "testId": "rest-051",
+      "tool": "search_shelters",
+      "description": "Search shelters by city name only (auto-resolve coordinates)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "[\n  {\n    \"id\": \"71aafa8d-fc6f-4c3a-9562-790a0933a78e\",\n    \"address\": \"דרך בן צבי/לבון\",\n    \"city\": null,\n    \"building_name\": \"דרך בן צבי/לבון\",\n    \"lat\": 32.0430729,\n    \"lon\": 34.7707051,\n    \"distance_meters\": 597,\n    \"distance_km\": 0.6,\n    \"capacity\": null,\n    \"wheelchair_accessible\": false,\n    \"has_stairs\": false,\n    \"shelter_type\": \"public_shelter\",\n    \"shelter_type_he\": null,\n    \"area_sqm\": null,\n    \"is_official\": true,\n    \"notes\": \"Access: public\"\n  },\n  {\n    \"id\": \"d343a87"
+    },
+    {
+      "testId": "rest-052",
+      "tool": "search_shelters",
+      "description": "Search shelters with radius filter",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "[\n  {\n    \"id\": \"e5e42b31-3097-488d-8ab5-46d9be655687\",\n    \"address\": \"שטרוק 16\",\n    \"city\": \"Tel Aviv\",\n    \"building_name\": null,\n    \"lat\": 32.0840861,\n    \"lon\": 34.7828561,\n    \"distance_meters\": 168,\n    \"distance_km\": 0.17,\n    \"capacity\": null,\n    \"wheelchair_accessible\": false,\n    \"has_stairs\": false,\n    \"shelter_type\": \"public_shelter\",\n    \"shelter_type_he\": \"מקלט ציבורי\",\n    \"area_sqm\": 100,\n    \"is_official\": true,\n    \"notes\": \"המקלט נמצא במתחם אגף מערכות מידע ומחשוב של עיריי"
+    },
+    {
+      "testId": "rest-053",
+      "tool": "search_shelters",
+      "description": "Search shelters with wheelchair filter",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "[\n  {\n    \"id\": \"e5e42b31-3097-488d-8ab5-46d9be655687\",\n    \"address\": \"שטרוק 16\",\n    \"city\": \"Tel Aviv\",\n    \"building_name\": null,\n    \"lat\": 32.0840861,\n    \"lon\": 34.7828561,\n    \"distance_meters\": 168,\n    \"distance_km\": 0.17,\n    \"capacity\": null,\n    \"wheelchair_accessible\": false,\n    \"has_stairs\": false,\n    \"shelter_type\": \"public_shelter\",\n    \"shelter_type_he\": \"מקלט ציבורי\",\n    \"area_sqm\": 100,\n    \"is_official\": true,\n    \"notes\": \"המקלט נמצא במתחם אגף מערכות מידע ומחשוב של עיריי"
+    },
+    {
+      "testId": "rest-054",
+      "tool": "search_shelters",
+      "description": "Search shelters with no lat/lon and no city (error case)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "MCP error -32603: Unexpected error: Either lat/lon or city name must be provided"
+    },
+    {
+      "testId": "rest-060",
+      "tool": "get_cities",
+      "description": "Basic cities catalog with defaults",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": 37623,\n      \"name\": \"'ביר הדאג\",\n      \"zone\": null\n    },\n    {\n      \"id\": 511,\n      \"name\": \"אבו גוש\",\n      \"zone\": \"בית שמש\"\n    },\n    {\n      \"id\": 2447,\n      \"name\": \"אבו נוור\",\n      \"zone\": null\n    },\n    {\n      \"id\": 1470,\n      \"name\": \"אבו סנאן\",\n      \"zone\": \"גליל עליון\"\n    },\n    {\n      \"id\": 92,\n      \"name\": \"אבו קרינאת\",\n      \"zone\": \"דרום הנגב\"\n    },\n    {\n      \"id\": 37572,\n      \"name\": \"אבו קרינאת והפזורה\",\n      \"zone\": null\n    },"
+    },
+    {
+      "testId": "rest-061",
+      "tool": "get_cities",
+      "description": "Cities with search filter",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": 2330,\n      \"name\": \"חיפה - בת גלים ק.אליעזר\",\n      \"zone\": \"חיפה\"\n    },\n    {\n      \"id\": 2332,\n      \"name\": \"חיפה - כרמל\",\n      \"zone\": null\n    },\n    {\n      \"id\": 37620,\n      \"name\": \"חיפה - כרמל ועיר תחתית\",\n      \"zone\": null\n    },\n    {\n      \"id\": 1302,\n      \"name\": \"חיפה - כרמל, הדר ועיר תחתית\",\n      \"zone\": \"חיפה\"\n    },\n    {\n      \"id\": 1292,\n      \"name\": \"חיפה - מערב\",\n      \"zone\": \"חיפה\"\n    },\n    {\n      \"id\": 1336,\n      \"name\": \"חיפה -"
+    },
+    {
+      "testId": "rest-062",
+      "tool": "get_cities",
+      "description": "Cities filtered by zone",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [],\n  \"pagination\": {\n    \"total\": 0,\n    \"limit\": 10,\n    \"offset\": 0,\n    \"hasMore\": false\n  }\n}"
+    },
+    {
+      "testId": "rest-063",
+      "tool": "get_cities",
+      "description": "Cities with include=translations,coords,countdown",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": 37623,\n      \"name\": \"'ביר הדאג\",\n      \"zone\": null,\n      \"translations\": null,\n      \"lat\": null,\n      \"lng\": null,\n      \"countdown\": null\n    },\n    {\n      \"id\": 511,\n      \"name\": \"אבו גוש\",\n      \"zone\": \"בית שמש\",\n      \"translations\": {\n        \"name\": {\n          \"en\": \"Abu Gosh\",\n          \"ru\": \"Абу Гош\",\n          \"ar\": \"آبو غوش\"\n        },\n        \"zone\": {\n          \"en\": \"Beit Shemesh\",\n          \"ru\": \"Бейт Шемеш\",\n          \"ar\": \"بيت شيمش\"\n   "
+    },
+    {
+      "testId": "rest-064",
+      "tool": "get_cities",
+      "description": "Cities with pagination (offset)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"data\": [\n    {\n      \"id\": 1065,\n      \"name\": \"אביאל\",\n      \"zone\": \"מנשה\"\n    },\n    {\n      \"id\": 1604,\n      \"name\": \"אביבים\",\n      \"zone\": \"קו העימות\"\n    },\n    {\n      \"id\": 373,\n      \"name\": \"אביגדור\",\n      \"zone\": \"לכיש\"\n    },\n    {\n      \"id\": 2262,\n      \"name\": \"אביגיל\",\n      \"zone\": \"יהודה\"\n    },\n    {\n      \"id\": 940,\n      \"name\": \"אביחיל\",\n      \"zone\": \"חפר\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 1689,\n    \"limit\": 5,\n    \"offset\": 10,\n    \"hasMore\": true\n  }\n}"
+    },
+    {
+      "testId": "rest-070",
+      "tool": "health_check",
+      "description": "Basic health check",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"ok\"\n}"
+    },
+    {
+      "testId": "rest-071",
+      "tool": "health_check",
+      "description": "Health check returns quickly (latency check)",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"ok\"\n}"
+    }
+  ],
+  "realtimeResults": [
+    {
+      "testId": "rt-001",
+      "tool": "subscribe_alerts",
+      "description": "Subscribe to all alerts in test mode",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"connected\",\n  \"subscribedTypes\": [\n    \"missiles\",\n    \"earthQuake\",\n    \"tsunami\",\n    \"hostileAircraftIntrusion\",\n    \"hazardousMaterials\",\n    \"terroristInfiltration\",\n    \"newsFlash\",\n    \"unconventionalWarfare\",\n    \"radiologicalEvent\",\n    \"generalAlert\",\n    \"missilesDrill\",\n    \"radiologicalEventDrill\",\n    \"earthQuakeDrill\",\n    \"tsunamiDrill\",\n    \"hostileAircraftIntrusionDrill\",\n    \"hazardousMaterialsDrill\",\n    \"terroristInfiltrationDrill\"\n  ],\n  \"testMode\": true,\n  \""
+    },
+    {
+      "testId": "rt-002",
+      "tool": "get_alert_subscription_status",
+      "description": "Check subscription status after subscribing",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"subscribedTypes\": [\n    \"missiles\",\n    \"earthQuake\",\n    \"tsunami\",\n    \"hostileAircraftIntrusion\",\n    \"hazardousMaterials\",\n    \"terroristInfiltration\",\n    \"newsFlash\",\n    \"unconventionalWarfare\",\n    \"radiologicalEvent\",\n    \"generalAlert\",\n    \"missilesDrill\",\n    \"radiologicalEventDrill\",\n    \"earthQuakeDrill\",\n    \"tsunamiDrill\",\n    \"hostileAircraftIntrusionDrill\",\n    \"hazardousMaterialsDrill\",\n    \"terroristInfiltrationDrill\"\n  ],\n  \"testMode\": true,\n  \"buff"
+    },
+    {
+      "testId": "rt-003",
+      "tool": "poll_alerts",
+      "description": "Poll for alerts after waiting for test server to send some",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"alertCount\": 7,\n  \"bufferSize\": 0,\n  \"alerts\": [\n    {\n      \"receivedAt\": \"2026-03-14T13:16:30.335Z\",\n      \"type\": \"missiles\",\n      \"title\": \"Test alert #1 - missiles simulation\",\n      \"cities\": [\n        \"נתניה\",\n        \"רחובות\",\n        \"רמת גן\"\n      ],\n      \"instructions\": \"Stay in the protected area for 10 minutes\"\n    },\n    {\n      \"receivedAt\": \"2026-03-14T13:16:30.336Z\",\n      \"type\": \"earthQuake\",\n      \"title\": \"Test alert #2 - earthQuake simulation\",\n "
+    },
+    {
+      "testId": "rt-004",
+      "tool": "unsubscribe_alerts",
+      "description": "Unsubscribe from alerts",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"disconnected\",\n  \"message\": \"Unsubscribed from real-time alerts. Buffer cleared.\"\n}"
+    },
+    {
+      "testId": "rt-005",
+      "tool": "get_alert_subscription_status",
+      "description": "Check status after unsubscribing",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": false,\n  \"subscribedTypes\": [],\n  \"testMode\": false,\n  \"bufferedAlerts\": 0,\n  \"connectedSince\": null,\n  \"totalAlertsReceived\": 0\n}"
+    },
+    {
+      "testId": "rt-006",
+      "tool": "poll_alerts",
+      "description": "Poll alerts without subscribing first - should error",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "MCP error -32603: Unexpected error: Not subscribed to alerts. Call subscribe_alerts first."
+    },
+    {
+      "testId": "rt-007",
+      "tool": "subscribe_alerts",
+      "description": "Subscribe to only missiles and earthQuake alert types in test mode",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"connected\",\n  \"subscribedTypes\": [\n    \"missiles\",\n    \"earthQuake\"\n  ],\n  \"testMode\": true,\n  \"message\": \"Subscribed to real-time alerts. Use poll_alerts to retrieve incoming alerts.\"\n}"
+    },
+    {
+      "testId": "rt-008",
+      "tool": "get_alert_subscription_status",
+      "description": "Verify filtered subscription status shows only selected types",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"subscribedTypes\": [\n    \"missiles\",\n    \"earthQuake\"\n  ],\n  \"testMode\": true,\n  \"bufferedAlerts\": 5,\n  \"connectedSince\": \"2026-03-14T13:16:36.928Z\",\n  \"totalAlertsReceived\": 5\n}"
+    },
+    {
+      "testId": "rt-009",
+      "tool": "unsubscribe_alerts",
+      "description": "Clean up - unsubscribe from filtered subscription",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"disconnected\",\n  \"message\": \"Unsubscribed from real-time alerts. Buffer cleared.\"\n}"
+    },
+    {
+      "testId": "rt-010",
+      "tool": "subscribe_alerts",
+      "description": "Subscribe with fast timing for multi-poll test",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"connected\",\n  \"subscribedTypes\": [\n    \"missiles\",\n    \"earthQuake\",\n    \"tsunami\",\n    \"hostileAircraftIntrusion\",\n    \"hazardousMaterials\",\n    \"terroristInfiltration\",\n    \"newsFlash\",\n    \"unconventionalWarfare\",\n    \"radiologicalEvent\",\n    \"generalAlert\",\n    \"missilesDrill\",\n    \"radiologicalEventDrill\",\n    \"earthQuakeDrill\",\n    \"tsunamiDrill\",\n    \"hostileAircraftIntrusionDrill\",\n    \"hazardousMaterialsDrill\",\n    \"terroristInfiltrationDrill\"\n  ],\n  \"testMode\": true,\n  \""
+    },
+    {
+      "testId": "rt-011",
+      "tool": "poll_alerts",
+      "description": "First poll - peek without acknowledging",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"alertCount\": 10,\n  \"bufferSize\": 10,\n  \"alerts\": [\n    {\n      \"receivedAt\": \"2026-03-14T13:16:40.467Z\",\n      \"type\": \"newsFlash\",\n      \"title\": \"Test alert #1 - newsFlash simulation\",\n      \"cities\": [\n        \"נתניה\",\n        \"רחובות\",\n        \"רמת גן\"\n      ],\n      \"instructions\": \"Stay in the protected area for 10 minutes\"\n    },\n    {\n      \"receivedAt\": \"2026-03-14T13:16:40.467Z\",\n      \"type\": \"tsunami\",\n      \"title\": \"Test alert #2 - tsunami simulation\",\n   "
+    },
+    {
+      "testId": "rt-012",
+      "tool": "poll_alerts",
+      "description": "Second poll - acknowledge alerts this time",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"alertCount\": 10,\n  \"bufferSize\": 0,\n  \"alerts\": [\n    {\n      \"receivedAt\": \"2026-03-14T13:16:40.467Z\",\n      \"type\": \"newsFlash\",\n      \"title\": \"Test alert #1 - newsFlash simulation\",\n      \"cities\": [\n        \"נתניה\",\n        \"רחובות\",\n        \"רמת גן\"\n      ],\n      \"instructions\": \"Stay in the protected area for 10 minutes\"\n    },\n    {\n      \"receivedAt\": \"2026-03-14T13:16:40.467Z\",\n      \"type\": \"tsunami\",\n      \"title\": \"Test alert #2 - tsunami simulation\",\n    "
+    },
+    {
+      "testId": "rt-013",
+      "tool": "poll_alerts",
+      "description": "Third poll - should have new alerts after waiting",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"alertCount\": 5,\n  \"bufferSize\": 1,\n  \"alerts\": [\n    {\n      \"receivedAt\": \"2026-03-14T13:16:46.333Z\",\n      \"type\": \"terroristInfiltration\",\n      \"title\": \"Test alert #11 - terroristInfiltration simulation\",\n      \"cities\": [\n        \"אילת\",\n        \"טבריה\",\n        \"ספיר\"\n      ],\n      \"instructions\": \"Stay in the protected area for 10 minutes\"\n    },\n    {\n      \"receivedAt\": \"2026-03-14T13:16:47.334Z\",\n      \"type\": \"earthQuake\",\n      \"title\": \"Test alert #12 - e"
+    },
+    {
+      "testId": "rt-014",
+      "tool": "unsubscribe_alerts",
+      "description": "Clean up - unsubscribe after multi-poll test",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"disconnected\",\n  \"message\": \"Unsubscribed from real-time alerts. Buffer cleared.\"\n}"
+    },
+    {
+      "testId": "rt-015",
+      "tool": "unsubscribe_alerts",
+      "description": "Unsubscribe when not subscribed - should succeed gracefully",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"disconnected\",\n  \"message\": \"Unsubscribed from real-time alerts. Buffer cleared.\"\n}"
+    },
+    {
+      "testId": "rt-016",
+      "tool": "subscribe_alerts",
+      "description": "First subscription for double-subscribe test",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"connected\",\n  \"subscribedTypes\": [\n    \"missiles\",\n    \"earthQuake\",\n    \"tsunami\",\n    \"hostileAircraftIntrusion\",\n    \"hazardousMaterials\",\n    \"terroristInfiltration\",\n    \"newsFlash\",\n    \"unconventionalWarfare\",\n    \"radiologicalEvent\",\n    \"generalAlert\",\n    \"missilesDrill\",\n    \"radiologicalEventDrill\",\n    \"earthQuakeDrill\",\n    \"tsunamiDrill\",\n    \"hostileAircraftIntrusionDrill\",\n    \"hazardousMaterialsDrill\",\n    \"terroristInfiltrationDrill\"\n  ],\n  \"testMode\": true,\n  \""
+    },
+    {
+      "testId": "rt-017",
+      "tool": "subscribe_alerts",
+      "description": "Second subscription - should reset and reconnect",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"connected\",\n  \"subscribedTypes\": [\n    \"missiles\"\n  ],\n  \"testMode\": true,\n  \"message\": \"Subscribed to real-time alerts. Use poll_alerts to retrieve incoming alerts.\"\n}"
+    },
+    {
+      "testId": "rt-018",
+      "tool": "get_alert_subscription_status",
+      "description": "Verify status reflects second subscription, not first",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": true,\n  \"subscribedTypes\": [\n    \"missiles\"\n  ],\n  \"testMode\": true,\n  \"bufferedAlerts\": 1,\n  \"connectedSince\": \"2026-03-14T13:16:52.865Z\",\n  \"totalAlertsReceived\": 1\n}"
+    },
+    {
+      "testId": "rt-019",
+      "tool": "unsubscribe_alerts",
+      "description": "Clean up double-subscribe test",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"status\": \"disconnected\",\n  \"message\": \"Unsubscribed from real-time alerts. Buffer cleared.\"\n}"
+    },
+    {
+      "testId": "rt-020",
+      "tool": "get_alert_subscription_status",
+      "description": "Check status when not subscribed at all",
+      "pass": true,
+      "detail": "OK",
+      "rawContent": "{\n  \"connected\": false,\n  \"subscribedTypes\": [],\n  \"testMode\": false,\n  \"bufferedAlerts\": 0,\n  \"connectedSince\": null,\n  \"totalAlertsReceived\": 0\n}"
+    }
+  ],
+  "failures": []
+}

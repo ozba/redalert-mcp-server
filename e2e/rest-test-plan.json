@@ -1,0 +1,498 @@
+{
+  "name": "RedAlert MCP Server - REST API E2E Test Plan",
+  "description": "Comprehensive end-to-end test cases for all 8 REST API MCP tools",
+  "version": "1.0.0",
+  "testCases": [
+    {
+      "id": "rest-001",
+      "tool": "get_active_alerts",
+      "description": "Get current active alerts with no params",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Should return object with alert type keys mapping to city arrays. Keys (if any) should be valid alert type strings, values should be arrays of strings."
+      }
+    },
+    {
+      "id": "rest-002",
+      "tool": "get_active_alerts",
+      "description": "Verify response structure has valid alert type keys",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Any keys present must be from the known alert types: missiles, earthQuake, tsunami, hostileAircraftIntrusion, hazardousMaterials, terroristInfiltration, newsFlash, unconventionalWarfare, radiologicalEvent, generalAlert, and their drill variants. Values must be string arrays."
+      }
+    },
+    {
+      "id": "rest-003",
+      "tool": "get_active_alerts",
+      "description": "Verify active alerts returns consistent results on repeated calls",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Two rapid sequential calls should return the same structure (keys match). This validates caching/consistency."
+      }
+    },
+
+    {
+      "id": "rest-010",
+      "tool": "get_stats_summary",
+      "description": "Basic summary with no params",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain totals.range, totals.last24h, totals.last7d, totals.last30d (all numbers), plus uniqueCities, uniqueZones, uniqueOrigins (all numbers)."
+      }
+    },
+    {
+      "id": "rest-011",
+      "tool": "get_stats_summary",
+      "description": "Summary with include=topCities,topZones,topOrigins,peak",
+      "arguments": {
+        "include": "topCities,topZones,topOrigins,peak"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain topCities[] with city/zone/count, topZones[] with zone/count, topOrigins[] with origin/count, and peak with period/count."
+      }
+    },
+    {
+      "id": "rest-012",
+      "tool": "get_stats_summary",
+      "description": "Summary with date range filter",
+      "arguments": {
+        "startDate": "2023-10-07T00:00:00Z",
+        "endDate": "2023-10-14T00:00:00Z"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain totals.range reflecting alerts only within the specified week. totals.range should be a non-negative number."
+      }
+    },
+    {
+      "id": "rest-013",
+      "tool": "get_stats_summary",
+      "description": "Summary with origin filter",
+      "arguments": {
+        "origin": "gaza",
+        "include": "topCities",
+        "topLimit": 3
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain topCities array with at most 3 items, all related to gaza origin. totals should reflect gaza-only alerts."
+      }
+    },
+    {
+      "id": "rest-014",
+      "tool": "get_stats_summary",
+      "description": "Summary with timeline grouped by day",
+      "arguments": {
+        "include": "timeline",
+        "timelineGroup": "day",
+        "startDate": "2023-10-07T00:00:00Z",
+        "endDate": "2023-10-10T00:00:00Z"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must include timeline[] with period and count fields. Each period should represent a day bucket."
+      }
+    },
+
+    {
+      "id": "rest-020",
+      "tool": "get_stats_cities",
+      "description": "Basic city stats with defaults",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain data[] array with city, cityZone, count fields, and pagination object with total, limit, offset, hasMore."
+      }
+    },
+    {
+      "id": "rest-021",
+      "tool": "get_stats_cities",
+      "description": "City stats with search filter",
+      "arguments": {
+        "search": "תל אביב"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should only contain cities whose names partially match 'תל אביב'. Each entry must have city, cityZone, count."
+      }
+    },
+    {
+      "id": "rest-022",
+      "tool": "get_stats_cities",
+      "description": "City stats with pagination",
+      "arguments": {
+        "limit": 3,
+        "offset": 0
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should have at most 3 entries. pagination.limit should be 3, pagination.offset should be 0."
+      }
+    },
+    {
+      "id": "rest-023",
+      "tool": "get_stats_cities",
+      "description": "City stats with include=translations,coords",
+      "arguments": {
+        "limit": 2,
+        "include": "translations,coords"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Each entry in data[] must include translations (object with en, ru, ar keys) and lat/lng (numbers or null)."
+      }
+    },
+    {
+      "id": "rest-024",
+      "tool": "get_stats_cities",
+      "description": "City stats with origin filter and date range",
+      "arguments": {
+        "origin": "lebanon",
+        "startDate": "2023-10-07T00:00:00Z",
+        "endDate": "2024-01-01T00:00:00Z",
+        "limit": 5
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response should contain city stats filtered by lebanon origin within the date range. data[] should have at most 5 entries."
+      }
+    },
+
+    {
+      "id": "rest-030",
+      "tool": "get_stats_history",
+      "description": "Basic history with defaults",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain data[] with entries having id, timestamp, type, origin, and cities[] (each with id and name). Pagination object must be present."
+      }
+    },
+    {
+      "id": "rest-031",
+      "tool": "get_stats_history",
+      "description": "History with search (city partial match)",
+      "arguments": {
+        "search": "אשקלון",
+        "limit": 5
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should contain alerts related to cities matching 'אשקלון'. Post-processed cities[] in each alert should only include matching cities."
+      }
+    },
+    {
+      "id": "rest-032",
+      "tool": "get_stats_history",
+      "description": "History filtered by category",
+      "arguments": {
+        "category": "missiles",
+        "limit": 10
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "All entries in data[] must have type equal to 'missiles' (or the API's equivalent category string). At most 10 results."
+      }
+    },
+    {
+      "id": "rest-033",
+      "tool": "get_stats_history",
+      "description": "History with date range and sorting",
+      "arguments": {
+        "startDate": "2023-10-07T00:00:00Z",
+        "endDate": "2023-10-08T00:00:00Z",
+        "sort": "timestamp",
+        "order": "asc",
+        "limit": 10
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "All timestamps must be within 2023-10-07 to 2023-10-08. Results should be in ascending chronological order."
+      }
+    },
+    {
+      "id": "rest-034",
+      "tool": "get_stats_history",
+      "description": "History with cityName exact match and include translations",
+      "arguments": {
+        "cityName": "שדרות",
+        "include": "translations",
+        "limit": 5
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Post-processed cities[] should only contain the city 'שדרות'. Each city entry should have translations object."
+      }
+    },
+    {
+      "id": "rest-035",
+      "tool": "get_stats_history",
+      "description": "History with include=coords,polygons",
+      "arguments": {
+        "limit": 2,
+        "include": "coords,polygons"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Each city in data[].cities[] should include lat, lng (numbers or null) and polygons (object or null)."
+      }
+    },
+
+    {
+      "id": "rest-040",
+      "tool": "get_stats_distribution",
+      "description": "Basic distribution with defaults (groupBy category)",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain data[] with category and count fields, totalAlerts number, and pagination object."
+      }
+    },
+    {
+      "id": "rest-041",
+      "tool": "get_stats_distribution",
+      "description": "Distribution grouped by origin",
+      "arguments": {
+        "groupBy": "origin"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should have entries grouped by origin (e.g. gaza, lebanon). Each entry has category (origin name) and count."
+      }
+    },
+    {
+      "id": "rest-042",
+      "tool": "get_stats_distribution",
+      "description": "Distribution grouped by category with date range",
+      "arguments": {
+        "groupBy": "category",
+        "startDate": "2023-10-07T00:00:00Z",
+        "endDate": "2024-01-01T00:00:00Z"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should reflect category distribution within the specified date range. totalAlerts should be sum of all counts."
+      }
+    },
+    {
+      "id": "rest-043",
+      "tool": "get_stats_distribution",
+      "description": "Distribution with origin filter and sorting",
+      "arguments": {
+        "origin": "gaza",
+        "sort": "count",
+        "order": "desc",
+        "limit": 5
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should have at most 5 entries sorted by count descending. All data should be filtered to gaza origin."
+      }
+    },
+    {
+      "id": "rest-044",
+      "tool": "get_stats_distribution",
+      "description": "Distribution with ascending alphabetical sort",
+      "arguments": {
+        "sort": "category",
+        "order": "asc"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response data[] should be sorted alphabetically by category name in ascending order."
+      }
+    },
+
+    {
+      "id": "rest-050",
+      "tool": "search_shelters",
+      "description": "Search shelters with lat/lon (Tel Aviv center)",
+      "arguments": {
+        "lat": 32.0853,
+        "lon": 34.7818,
+        "limit": 5
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must have success=true, count number, and results[] with id, address, city, lat, lon, distance_m, distance_km, wheelchair_accessible fields."
+      }
+    },
+    {
+      "id": "rest-051",
+      "tool": "search_shelters",
+      "description": "Search shelters by city name only (auto-resolve coordinates)",
+      "arguments": {
+        "city": "תל אביב - יפו",
+        "limit": 3
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Should auto-resolve city to coordinates and return shelters. success=true, results[] should have valid shelter entries."
+      }
+    },
+    {
+      "id": "rest-052",
+      "tool": "search_shelters",
+      "description": "Search shelters with radius filter",
+      "arguments": {
+        "lat": 32.0853,
+        "lon": 34.7818,
+        "radius": 0.5,
+        "limit": 10
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "All results[].distance_km should be <= 0.5. success=true."
+      }
+    },
+    {
+      "id": "rest-053",
+      "tool": "search_shelters",
+      "description": "Search shelters with wheelchair filter",
+      "arguments": {
+        "lat": 32.0853,
+        "lon": 34.7818,
+        "wheelchairOnly": true,
+        "limit": 5
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "All results[] should have wheelchair_accessible=true. success=true."
+      }
+    },
+    {
+      "id": "rest-054",
+      "tool": "search_shelters",
+      "description": "Search shelters with no lat/lon and no city (error case)",
+      "arguments": {},
+      "validate": {
+        "isError": true,
+        "responseIsJSON": false,
+        "description": "Should return an error indicating either lat/lon or city name must be provided."
+      }
+    },
+
+    {
+      "id": "rest-060",
+      "tool": "get_cities",
+      "description": "Basic cities catalog with defaults",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Response must contain data[] with id, name, zone fields and pagination object. Default limit should return up to 100 entries."
+      }
+    },
+    {
+      "id": "rest-061",
+      "tool": "get_cities",
+      "description": "Cities with search filter",
+      "arguments": {
+        "search": "חיפה"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "data[] should only contain cities whose names partially match 'חיפה'. Each entry must have id, name, zone."
+      }
+    },
+    {
+      "id": "rest-062",
+      "tool": "get_cities",
+      "description": "Cities filtered by zone",
+      "arguments": {
+        "zone": "גוש דן",
+        "limit": 10
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "All entries in data[] should have zone matching 'גוש דן'. At most 10 results."
+      }
+    },
+    {
+      "id": "rest-063",
+      "tool": "get_cities",
+      "description": "Cities with include=translations,coords,countdown",
+      "arguments": {
+        "limit": 3,
+        "include": "translations,coords,countdown"
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Each entry in data[] must include translations (object), lat/lng (number or null), and countdown (number or null)."
+      }
+    },
+    {
+      "id": "rest-064",
+      "tool": "get_cities",
+      "description": "Cities with pagination (offset)",
+      "arguments": {
+        "limit": 5,
+        "offset": 10
+      },
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "pagination.offset should be 10, pagination.limit should be 5. data[] should have at most 5 entries. Results should differ from offset=0."
+      }
+    },
+
+    {
+      "id": "rest-070",
+      "tool": "health_check",
+      "description": "Basic health check",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Should return a successful response indicating the API is healthy. Response should be parseable JSON."
+      }
+    },
+    {
+      "id": "rest-071",
+      "tool": "health_check",
+      "description": "Health check returns quickly (latency check)",
+      "arguments": {},
+      "validate": {
+        "isError": false,
+        "responseIsJSON": true,
+        "description": "Health check should respond within a reasonable time. Validate response is not an error."
+      }
+    }
+  ]
+}
