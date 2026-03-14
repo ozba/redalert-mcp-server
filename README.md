@@ -41,13 +41,6 @@ An MCP (Model Context Protocol) server for Israel's RedAlert emergency alert sys
 - Node.js 18+
 - A RedAlert API key (get one at [redalert.orielhaim.com](https://redalert.orielhaim.com))
 
-### Install & Build
-
-```bash
-npm install
-npm run build
-```
-
 ### Configure in Claude Code
 
 Add to `~/.claude.json` under your project's `mcpServers`:
@@ -56,8 +49,8 @@ Add to `~/.claude.json` under your project's `mcpServers`:
 {
   "redalert": {
     "type": "stdio",
-    "command": "node",
-    "args": ["<path-to>/dist/index.js"],
+    "command": "npx",
+    "args": ["-y", "redalert-mcp-server"],
     "env": {
       "REDALERT_API_KEY": "your-api-key-here"
     }
@@ -73,8 +66,8 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "redalert": {
-      "command": "node",
-      "args": ["<path-to>/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "redalert-mcp-server"],
       "env": {
         "REDALERT_API_KEY": "your-api-key-here"
       }
