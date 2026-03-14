@@ -2,9 +2,35 @@
   "name": "redalert-mcp-server",
   "version": "1.0.0",
   "type": "module",
-  "description": "MCP server for Israel RedAlert emergency alerts",
+  "description": "MCP server for Israel RedAlert emergency alerts - real-time alerts, statistics, shelter search, and city data",
   "main": "dist/index.js",
+  "bin": {
+    "redalert-mcp-server": "dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "redalert",
+    "israel",
+    "alerts",
+    "emergency",
+    "rockets",
+    "shelters",
+    "pikud-haoref"
+  ],
+  "author": "ozba",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ozba/redalert-mcp-server.git"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts",
