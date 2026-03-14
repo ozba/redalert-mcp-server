@@ -153,6 +153,26 @@ Claude automatically uses `get_stats_cities` and `get_stats_history` to gather a
 
 Claude uses `get_stats_history` with Hebrew city search, automatically filtering results to show only Kfar Saba. Works in any language.
 
+### Example: Nearest Shelters
+
+> **Prompt:** "תראה לי את שלושת המקלטים הכי קרובים לתיאטרון הבימה בתל אביב"
+
+```
+שלושת המקלטים הקרובים ביותר לתיאטרון הבימה:
+
+| # | מרחק   | כתובת                     | שם                   | סוג                  | שטח       |
+|---|--------|---------------------------|----------------------|----------------------|-----------|
+| 1 | 143 מ' | הוברמן 4 (כיכר הבימה)      | הבימה/שד' בן ציון     | מקלט בשטח חניון       | 2,000 מ"ר |
+| 2 | 154 מ' | הוברמן 1                  | היכל התרבות           | חניון מחסה לציבור     | 37,200 מ"ר|
+| 3 | 260 מ' | ביל"ו 54                  | -                    | מקלט ציבורי          | 92 מ"ר    |
+
+- מקלט 1 - ממש בכיכר הבימה, גישה ציבורית
+- מקלט 2 - היכל התרבות, החניון הגדול משמש כמחסה לציבור
+- מקלט 3 - ביל"ו 54 פינת מרמורק 20, מתחת לבית כנסת
+```
+
+Claude resolves the landmark to coordinates and uses `search_shelters` to find the nearest shelters with full details.
+
 ## Testing
 
 ```bash
