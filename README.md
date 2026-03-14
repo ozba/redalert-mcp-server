@@ -92,6 +92,30 @@ Once configured, you can ask Claude:
 - "Search for shelters near Tel Aviv"
 - "Get alert statistics summary with top cities"
 - "Subscribe to test alerts and poll for updates"
+- "Compare missile alerts between Kfar Saba and Shoham in the last 2 months"
+
+### Example: City Comparison
+
+> **Prompt:** "Compare the missile alerts in the last 2 months between Kfar Saba and Shoham"
+
+```
+┌──────────────────────────┬───────────────┬───────────────┐
+│                          │   Kfar Saba   │    Shoham     │
+├──────────────────────────┼───────────────┼───────────────┤
+│ Zone                     │ Sharon        │ Yarkon        │
+├──────────────────────────┼───────────────┼───────────────┤
+│ Missile alerts           │ 64            │ 77            │
+├──────────────────────────┼───────────────┼───────────────┤
+│ Total alerts (all types) │ 205           │ 217           │
+├──────────────────────────┼───────────────┼───────────────┤
+│ Last missile alert       │ Mar 14, 12:43 │ Mar 13, 21:22 │
+└──────────────────────────┴───────────────┴───────────────┘
+
+Shoham had ~20% more missile alerts than Kfar Saba over this period (77 vs 64).
+Both cities had a similar ratio of missile alerts to total alerts (~31-35%).
+```
+
+Claude automatically uses `get_stats_cities` and `get_stats_history` to gather and compare data across cities.
 
 ## Testing
 
