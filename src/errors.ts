@@ -49,8 +49,48 @@ export function formatErrorResult(error: unknown): { content: Array<{ type: "tex
   };
 }
 
+/**
+ * Convert a UTC ISO timestamp to Israel time ISO timestamp.
+ * Israel is UTC+2 (winter, Nov-Mar) or UTC+3 (summer DST, Apr-Oct).
+ */
+function utcToIsrael(utcStr: string): string {
+  const d = new Date(utcStr);
+  if (isNaN(d.getTime())) return utcStr;
+  const month = d.getUTCMonth(); // 0-indexed
+  const offset = (month >= 3 && month <= 9) ? 3 : 2;
+  const israel = new Date(d.getTime() + offset * 3600000);
+  const yyyy = israel.getUTCFullYear();
+  const mm = String(israel.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(israel.getUTCDate()).padStart(2, "0");
+  const hh = String(israel.getUTCHours()).padStart(2, "0");
+  const min = String(israel.getUTCMinutes()).padStart(2, "0");
+  const ss = String(israel.getUTCSeconds()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}+0${offset}:00`;
+}
+
+/**
+ * Recursively walk a JSON object and convert any "timestamp" fields from UTC to Israel time.
+ */
+function convertTimestamps(obj: unknown): unknown {
+  if (obj === null || obj === undefined) return obj;
+  if (Array.isArray(obj)) return obj.map(convertTimestamps);
+  if (typeof obj === "object") {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      if (key === "timestamp" && typeof value === "string" && value.endsWith("Z")) {
+        result[key] = utcToIsrael(value);
+      } else {
+        result[key] = convertTimestamps(value);
+      }
+    }
+    return result;
+  }
+  return obj;
+}
+
 export function formatSuccessResult(data: unknown): { content: Array<{ type: "text"; text: string }> } {
+  const converted = convertTimestamps(data);
   return {
-    content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }],
+    content: [{ type: "text" as const, text: JSON.stringify(converted, null, 2) }],
   };
 }
