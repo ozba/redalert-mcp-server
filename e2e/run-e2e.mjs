@@ -8,7 +8,7 @@ const REST_PLAN_PATH = resolve(PROJECT_ROOT, 'e2e/rest-test-plan.json');
 const REALTIME_PLAN_PATH = resolve(PROJECT_ROOT, 'e2e/realtime-test-plan.json');
 const RESULTS_PATH = resolve(PROJECT_ROOT, 'e2e/results.json');
 
-const API_KEY = 'mcpoJDEwCBjfiNjPgSMifQIiErLBeybAEQcBzkZshNpYuqSKeheviXVedazVVxvSobL';
+const API_KEY = process.env.REDALERT_API_KEY || '';
 
 let requestId = 1;
 let responseBuffer = '';
