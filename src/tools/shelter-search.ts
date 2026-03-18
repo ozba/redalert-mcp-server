@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { searchShelters } from "../api/shelter.js";
 import { getDataCities } from "../api/data.js";
+import { enrichShelterAddresses } from "../api/geocode.js";
 import { formatSuccessResult, formatErrorResult } from "../errors.js";
 
 export function register(server: McpServer): void {
@@ -63,7 +64,8 @@ export function register(server: McpServer): void {
 
         const { city: _city, ...rest } = params;
         const data = await searchShelters({ ...rest, lat, lon });
-        return formatSuccessResult(data);
+        const enriched = await enrichShelterAddresses(data);
+        return formatSuccessResult(enriched);
       } catch (error) {
         return formatErrorResult(error);
       }

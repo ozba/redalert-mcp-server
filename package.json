@@ -1,6 +1,6 @@
 {
   "name": "redalert-mcp-server",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "MCP server for Israel RedAlert emergency alerts - real-time alerts, statistics, shelter search, and city data",
   "main": "dist/index.js",
